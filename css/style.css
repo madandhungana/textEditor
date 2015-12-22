@@ -1,0 +1,24 @@
+#textarea{
+    background-color: gainsboro;
+}
+.function{
+    color: aqua;
+}
+.simple{
+    color: blue;
+}
+.keyword{
+    color: brown;
+}
+.value{
+    color: darkorange;
+}
+.modifier{
+    color: burlywood;
+}
+.numeric{
+    color: darkolivegreen;
+}
+.operator{
+    color: red;
+}
