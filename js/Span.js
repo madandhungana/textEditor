@@ -1,4 +1,4 @@
-function Span(){
+function Span(flag){
     var elem=document.getElementById('textarea');
     var listenKey=new ListenKey();
 //    var mouse = new Mouse();
@@ -31,14 +31,20 @@ function Span(){
 			}
 			
         });
-		
-		elem.appendChild(span); 
+		if( flag && mainInstance.currentSpan.nextSibling != null){
+		        elem.insertBefore(span,mainInstance.currentSpan.nextSibling); 
+				
+		}
+		else{
+					elem.appendChild(span); 
+					flag=1;
+		}
         span.focus();
         return span;
                      
     }
  /*this function is used to create new span when whitespace is pressed */
-    this.createNewSpan=function(previousSpan,inputString){
+    this.createNewSpan=function(inputString){
         var className=listenKey.getClassName(inputString);
         var span=document.createElement('span');
         span.innerHTML =inputString;
@@ -46,7 +52,7 @@ function Span(){
         span.setAttribute('contenteditable','true');
         span.setAttribute('display','inline-block');
         span.style.border = '1px solid white';
-        elem.insertBefore(span,previousSpan.nextSibling); 
+//        elem.insertBefore(span,.nextSibling); 
         span.focus();
         return span;
     }

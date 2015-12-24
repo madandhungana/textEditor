@@ -9,12 +9,12 @@ function ListenKey(){
         'protected':'modifier','implements':'keyword','instanceof':'keyword'
         
     };
-    this.getChar = function(e) {
-        if (e.which == null) {
-            return String.fromCharCode(e.keyCode) // IE
+    this.getChar = function(eventKeyCode) {
+        if (eventKeyCode == null) {
+            return String.fromCharCode(eventKeyCode) // IE
           } 
-        else if (e.which != 0) {
-            return String.fromCharCode(e.keyCode)   // the rest
+        else if (eventKeyCode != 0) {
+            return String.fromCharCode(eventKeyCode)   // the rest
           }
         else {
             return null; // special key
