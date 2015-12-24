@@ -1,20 +1,38 @@
 function Span(){
     var elem=document.getElementById('textarea');
-    var listenKey=new ListenKey(); 
+    var listenKey=new ListenKey();
 //    var mouse = new Mouse();
     this.createSpan=function(charString){
         var className=listenKey.getClassName(charString);
         var span=document.createElement('span');
+		var mainInstance = Singleton.getInstance();
         span.innerHTML =charString;
         span.setAttribute('class',className);
         span.setAttribute('contenteditable','true');
         span.setAttribute('display','inline-block');
-//        span.setAttribute('outline','transparent');
-//		span.style.border = '1px solid transparent';
-        span.onclick=function(){
-            console.log('This is a span active attribute: ',document.activeElement);
-        }
-        elem.appendChild(span); 
+		span.style.border = '1px solid transparent';
+		span.addEventListener('selectstart',function(){
+			var spans=document.getElementsByTagName('span');
+			
+			for(var i=0;i<spans.length;i++){
+				spans[i].setAttribute('contenteditable','false');
+			}
+			
+		});
+		span.addEventListener('mouseup',function(){
+			var spans=document.getElementsByTagName('span');
+			if(!event.target.innerHTML==' '){
+				console.log(event.target);
+				for(var i=0; i<spans.length; i++){
+					spans[i].setAttribute('contenteditable','true');
+				}
+				mainInstance.currentSpan=event.target;
+				mainInstance.currentSpan.focus();
+			}
+			
+        });
+		
+		elem.appendChild(span); 
         span.focus();
         return span;
                      
