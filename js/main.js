@@ -239,7 +239,7 @@
 				}
 				else if(eventKey[16] && eventKey[221]){
 					event.preventDefault();
-					that.currentSpan = span.createSpan('}');
+					that.currentSpan = span.createSpan('\}');
 					that.currentSpan.focus();
 					inputString='';
 					that.currentSpan = span.createSpan(inputString);

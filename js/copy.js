@@ -31,10 +31,11 @@ document.addEventListener('copy',function(event){
 });
 
 document.addEventListener('paste',function(event){
-	alert(event.clipboardData.getData('text/plain'));
+	var parser=new Parser();
 	if(event.clipboardData.types.indexOf('text/plain') > -1){
 		alert('clipboard data'+event.clipboardData.getData('text/plain'));
-//		event.preventDefault();
+		parser.parseData(event.clipboardData.getData('text/plain'))
+		event.preventDefault();
 	}
 });
 
