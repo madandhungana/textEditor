@@ -46,9 +46,9 @@ function KeyEvent(){
 
 
 						}
-//						else if( textEditorInstance.currentSpan.previousSibling == document.getElementsByTagName('span')[0].previousSibling){
-//							
-//						}
+						else if( textEditorInstance.currentSpan.previousSibling == document.getElementsByTagName('span')[0].previousSibling){
+							
+						}
 						else{
 						  	textEditorInstance.currentSpan=textEditorInstance.currentSpan.previousSibling;
 							previousSpan.remove();
