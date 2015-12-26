@@ -21,6 +21,7 @@ function Span(flag) {
 		});
 		span.addEventListener('mouseup', function () {
 			var spans = document.getElementsByTagName('span');
+			console.log(event.target.nextSibling.nextSibling);
 			if (!event.target.innerHTML == ' ') {
 				console.log(event.target);
 				for (var i = 0; i < spans.length; i++) {

@@ -53,7 +53,7 @@ function KeyEvent() {
 		} else if (eventKey[13]) {
 			event.preventDefault();
 			span.changeLine();
-			
+
 		} else if (eventKey[9]) {
 			event.preventDefault();
 			textEditorInstance.currentSpan = span.createSpan(tab.getTab());
@@ -64,8 +64,13 @@ function KeyEvent() {
 		} else if (eventKey[37]) {
 			console.log(textEditorInstance.currentSpan);
 			if (caret.getCaretPosition() == 0 && textEditorInstance.currentSpan.previousSibling != null) {
-				if (textEditorInstance.currentSpan.previousSibling != document.getElementsByTagName('span')[0].previousSibling) {
+				if (textEditorInstance.currentSpan.previousSibling != document.getElementsByTagName('span')[0].previousSibling
+					&& textEditorInstance.currentSpan.previousSibling.tagName != 'BR') {
 					textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
+				} else if (textEditorInstance.currentSpan.previousSibling != document.getElementsByTagName('span')[0].previousSibling
+						   && textEditorInstance.currentSpan.previousSibling.tagName == 'BR') {
+					textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling.previousSibling;
+
 				}
 				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
 				textEditorInstance.currentSpan.focus();
@@ -73,10 +78,17 @@ function KeyEvent() {
 			}
 
 		} else if (eventKey[39]) {
-			if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length && textEditorInstance.currentSpan.nextSibling != null) {
+			if(caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length
+					&& textEditorInstance.currentSpan.nextSibling.nextSibling != null
+					&&textEditorInstance.currentSpan.nextSibling.tagName =='BR'){
+				textEditorInstance.currentSpan=textEditorInstance.currentSpan.nextSibling.nextSibling;
+				textEditorInstance.currentSpan.focus();
+			}
+			else if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length && textEditorInstance.currentSpan.nextSibling != null) {
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling;
 				textEditorInstance.currentSpan.focus();
 			}
+			
 		} else if (eventKey[16] && eventKey[57]) {
 			event.preventDefault();
 			textEditorInstance.currentSpan = span.createSpan('(');
