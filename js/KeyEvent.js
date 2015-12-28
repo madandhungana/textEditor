@@ -27,11 +27,11 @@ function KeyEvent() {
 			//            textEditorInstance.currentSpan.focus();
 		} else if (eventKey[8]) {
 			textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;
-			console.log('before slicing ', textEditorInstance.inputString);
-			textEditorInstance.inputString = textEditorInstance.inputString.substring(0, textEditorInstance.inputString.length - 1);
-			console.log('after slicing ', textEditorInstance.inputString);
+			var caretpos= caret.getCaretPosition();
+			textEditorInstance.inputString = textEditorInstance.inputString.substring(0, caretpos-1);
+			console.log('innerHTML '+textEditorInstance.currentSpan.innerHTML);
 			textEditorInstance.currentSpan = span.changeSpan(textEditorInstance.currentSpan, textEditorInstance.inputString);
-			console.log('changed span', textEditorInstance.currentSpan);
+			textEditorInstance.currentSpan.focus();
 			if (textEditorInstance.currentSpan.innerHTML == ' ' || textEditorInstance.currentSpan.innerHTML == '' || textEditorInstance.currentSpan.innerHTML == tab.getTab()) {
 				var previousSpan = textEditorInstance.currentSpan;
 				if (textEditorInstance.currentSpan.previousSibling.tagName == 'BR') {
@@ -53,7 +53,6 @@ function KeyEvent() {
 		} else if (eventKey[13]) {
 			event.preventDefault();
 			span.changeLine();
-
 		} else if (eventKey[9]) {
 			event.preventDefault();
 			textEditorInstance.currentSpan = span.createSpan(tab.getTab());
@@ -320,6 +319,7 @@ function KeyEvent() {
 					char = charUpper.toLowerCase();
 					textEditorInstance.inputString = textEditorInstance.inputString.concat(char);
 					textEditorInstance.currentSpan = span.changeSpan(textEditorInstance.currentSpan, textEditorInstance.inputString);
+					textEditorInstance.currentSpan.focus();
 					eventKey[i] = false;
 				}
 			}

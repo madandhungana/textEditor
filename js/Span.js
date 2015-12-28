@@ -21,7 +21,6 @@ function Span(flag) {
 		});
 		span.addEventListener('mouseup', function () {
 			var spans = document.getElementsByTagName('span');
-			console.log(event.target.nextSibling.nextSibling);
 			if (!event.target.innerHTML == ' ') {
 				console.log(event.target);
 				for (var i = 0; i < spans.length; i++) {
@@ -56,15 +55,17 @@ function Span(flag) {
 	this.changeLine = function () {
 		var mainInstance = Singleton.getInstance();
 		var lineBreak = document.createElement('br');
+		console.log('current span while '+mainInstance.currentSpan);
+		console.log('current span next sibling'+mainInstance.currentSpan.nextSibling)
 		if (mainInstance.currentSpan.nextSibling != null) {
 			elem.insertBefore(lineBreak, mainInstance.currentSpan);
 			mainInstance.currentSpan.focus();
 		} else {
-			elem.appendChild(lineBreak);
-			mainInstance.inputString = '';
-			mainInstance.currentSpan = this.createSpan(mainInstance.inputString);
+			mainInstance.currentSpan=elem.appendChild(lineBreak);
 			mainInstance.currentSpan.focus();
-			
+			mainInstance.inputString = '';
+			mainInstance.currentSpan = this.createSpan('');
+			mainInstance.currentSpan.focus();
 		}
 
 	}
