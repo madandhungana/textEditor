@@ -5,23 +5,23 @@ function TextEditor() {
 	var char = '';
 	this.inputString = '';
 	this.currentSpan;
-	var keyEvent = new KeyEvent();
+	var keyEvent = new KeyEvent(element);
 	var span = new Span(false);
 	var caret = new Caret();
 
-	this.init = function() {
+	this.init = function () {
 		var eventKeys = [];
-		that.currentSpan = span.createSpan('');
-		that.currentSpan.focus;
-		element.onkeydown = function(event) {
+		that.currentSpan = span.appendSpan(span.createSpan(''));
+		that.currentSpan.focus();
+		element.onkeydown = function (event) {
 			eventKeys[event.keyCode] = true;
 			keyEvent.checkCharacter(eventKeys, event.keyCode);
 		};
-		element.onkeyup = function(event) {
+		element.onkeyup = function (event) {
 			eventKeys[event.keyCode] = false;
 
 		}
-		element.onclick = function(e) {
+		element.onclick = function (e) {
 			var eventId = e.target.id;
 
 			if (!eventId.localeCompare("textarea")) {
@@ -37,7 +37,7 @@ function TextEditor() {
 	}
 }
 
-var Singleton = (function() {
+var Singleton = (function () {
 
 	function createInstance() {
 		var textEditor = new TextEditor();
@@ -45,7 +45,7 @@ var Singleton = (function() {
 	}
 	var instance;
 	return {
-		getInstance: function() {
+		getInstance: function () {
 			if (!instance) {
 				instance = createInstance();
 

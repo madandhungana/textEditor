@@ -1,7 +1,10 @@
-function KeyEvent() {
+function KeyEvent(element) {
+	var elem = element;
 	var span = new Span();
 	var listenKey = new ListenKey();
+	var backspace=new Backspace(elem);
 	var caret = new Caret();
+	var newSpan;
 
 	this.checkCharacter = function (eventKey, eventValue) {
 		var tab = new Tab();
@@ -10,9 +13,11 @@ function KeyEvent() {
 			console.log(event);
 			event.preventDefault();
 			textEditorInstance.inputString = ' ';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 
 			//            var innerText=textEditorInstance.currentSpan.innerHTML;//innerhtml of current 
@@ -26,47 +31,22 @@ function KeyEvent() {
 			//            textEditorInstance.currentSpan=span.createNewSpan(previousSpan,secondText);
 			//            textEditorInstance.currentSpan.focus();
 		} else if (eventKey[8]) {
-			textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;
-			var caretpos= caret.getCaretPosition();
-			textEditorInstance.inputString = textEditorInstance.inputString.substring(0, caretpos-1);
-			console.log('innerHTML '+textEditorInstance.currentSpan.innerHTML);
-			textEditorInstance.currentSpan = span.changeSpan(textEditorInstance.currentSpan, textEditorInstance.inputString);
-			textEditorInstance.currentSpan.focus();
-			if (textEditorInstance.currentSpan.innerHTML == ' ' || textEditorInstance.currentSpan.innerHTML == '' || textEditorInstance.currentSpan.innerHTML == tab.getTab()) {
-				var previousSpan = textEditorInstance.currentSpan;
-				if (textEditorInstance.currentSpan.previousSibling.tagName == 'BR') {
-					textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling.previousSibling;
-					var br = document.getElementsByTagName('BR');
-					var length = br.length;
-					br[length - 1].parentNode.removeChild(br[length - 1]);
-					previousSpan.remove();
-				} else if (textEditorInstance.currentSpan.previousSibling == document.getElementsByTagName('span')[0].previousSibling) {
-
-				} else {
-					textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
-					previousSpan.remove();
-				}
-				textEditorInstance.currentSpan.focus();
-				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
-				textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;
-			}
+			backspace.deleteOnBackspace();
 		} else if (eventKey[13]) {
 			event.preventDefault();
 			span.changeLine();
 		} else if (eventKey[9]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan(tab.getTab());
-			textEditorInstance.currentSpan.focus();
-			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
-			textEditorInstance.currentSpan.focus();
+			span.createTab();
 		} else if (eventKey[37]) {
 			console.log(textEditorInstance.currentSpan);
 			if (caret.getCaretPosition() == 0 && textEditorInstance.currentSpan.previousSibling != null) {
-				if (textEditorInstance.currentSpan.previousSibling != document.getElementsByTagName('span')[0].previousSibling
+				if (textEditorInstance.currentSpan.previousSibling
+					!= document.getElementsByTagName('span')[0].previousSibling
 					&& textEditorInstance.currentSpan.previousSibling.tagName != 'BR') {
 					textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
-				} else if (textEditorInstance.currentSpan.previousSibling != document.getElementsByTagName('span')[0].previousSibling
+				} else if (textEditorInstance.currentSpan.previousSibling
+						   != document.getElementsByTagName('span')[0].previousSibling
 						   && textEditorInstance.currentSpan.previousSibling.tagName == 'BR') {
 					textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling.previousSibling;
 
@@ -77,234 +57,294 @@ function KeyEvent() {
 			}
 
 		} else if (eventKey[39]) {
-			if(caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length
-					&& textEditorInstance.currentSpan.nextSibling.nextSibling != null
-					&&textEditorInstance.currentSpan.nextSibling.tagName =='BR'){
-				textEditorInstance.currentSpan=textEditorInstance.currentSpan.nextSibling.nextSibling;
+			if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length
+				&& textEditorInstance.currentSpan.nextSibling.nextSibling != null
+				&& textEditorInstance.currentSpan.nextSibling.tagName == 'BR') {
+				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling.nextSibling;
 				textEditorInstance.currentSpan.focus();
-			}
-			else if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length && textEditorInstance.currentSpan.nextSibling != null) {
+			} else if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length && textEditorInstance.currentSpan.nextSibling != null) {
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling;
 				textEditorInstance.currentSpan.focus();
 			}
-			
+
 		} else if (eventKey[16] && eventKey[57]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('(');
+			newSpan = span.createSpan('(');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[48]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan(')');
+			newSpan = span.createSpan(')');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[186]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan(':');
+			newSpan = span.createSpan(':');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[219]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('{');
+			newSpan = span.createSpan('\{');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[221]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('\}');
+			newSpan = span.createSpan('\}');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[188]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('<');
+			newSpan = span.createSpan('<');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[190]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('>');
+			newSpan = span.createSpan('>');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[191]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('?');
+			newSpan = span.createSpan('?');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if ((eventKey[16] && eventKey[220]) || (eventKey[16] && eventKey[226])) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('|');
+			newSpan = span.createSpan('|');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[187]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('+');
+			newSpan = span.createSpan('+');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[189]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('_');
+			newSpan = span.createSpan('_');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[56]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('*');
+			newSpan = span.createSpan('*');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[55]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('&');
+			newSpan = span.createSpan('&');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[54]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('^');
+			newSpan = span.createSpan('^');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[53]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('%');
+			newSpan = span.createSpan('%');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[52]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('$');
+			newSpan = span.createSpan('$');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[51]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('#');
+			newSpan = span.createSpan('#');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[50]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('@');
+			newSpan = span.createSpan('@');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[49]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('!');
+			newSpan = span.createSpan('!');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[192]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('~');
+			newSpan = span.createSpan('~');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[187]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('=');
+			newSpan = span.createSpan('=');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[186]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan(';');
+			newSpan = span.createSpan(';');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[189]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('-');
+			newSpan = span.createSpan('-');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[219]) {
-			console.log('inside');
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('[');
+			newSpan = span.createSpan('[');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[221]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan(']');
+			newSpan = span.createSpan(']');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[220] || eventKey[226]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('\\');
+			newSpan = span.createSpan('\\');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[191]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('/');
+			newSpan = span.createSpan('/');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[190]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('.');
+			newSpan = span.createSpan('.');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[188]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan(',');
+			newSpan = span.createSpan(',');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[192]) {
 			event.preventDefault();
-			textEditorInstance.currentSpan = span.createSpan('`');
+			newSpan = span.createSpan('`');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
-			textEditorInstance.currentSpan = span.createSpan(textEditorInstance.inputString);
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[222]) {
-
-			textEditorInstance.currentSpan = span.createSpan('');
+			event.preventDefault();
+			newSpan = span.createSpan('\'');
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
-			textEditorInstance.inputString = '\'';
-			textEditorInstance.currentSpan = span.changeSpan(textEditorInstance.currentSpan, textEditorInstance.inputString);
+			textEditorInstance.inputString = '';
+			newSpan = span.createSpan(textEditorInstance.inputString);
+			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventValue >= 48 && eventValue <= 57) {
 			var numChar = listenKey.getChar(eventValue);
