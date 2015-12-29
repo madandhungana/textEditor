@@ -108,16 +108,6 @@ function Span(flag) {
 			mainInstance.inputString= secondString;
 			mainInstance.currentSpan.focus();
 		}
-//		if (mainInstance.currentSpan.nextSibling != null) {
-//			elem.insertBefore(lineBreak, mainInstance.currentSpan);
-//			mainInstance.currentSpan.focus();
-//		} else {
-//			mainInstance.currentSpan = elem.appendChild(lineBreak);
-//			mainInstance.currentSpan.focus();
-//			mainInstance.inputString = '';
-//			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
-//			mainInstance.currentSpan.focus();
-//		}
 	}
 	this.createTab = function(){
 		var mainInstance = Singleton.getInstance();

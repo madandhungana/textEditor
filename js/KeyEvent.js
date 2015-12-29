@@ -52,20 +52,21 @@ function KeyEvent(element) {
 
 				}
 				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
+				event.preventDefault();
 				textEditorInstance.currentSpan.focus();
 
 			}
 
 		} else if (eventKey[39]) {
-			if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length
-				&& textEditorInstance.currentSpan.nextSibling.nextSibling != null
-				&& textEditorInstance.currentSpan.nextSibling.tagName == 'BR') {
-				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling.nextSibling;
-				textEditorInstance.currentSpan.focus();
-			} else if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length && textEditorInstance.currentSpan.nextSibling != null) {
+			if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length && textEditorInstance.currentSpan.nextSibling != null) {
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling;
 				textEditorInstance.currentSpan.focus();
-			}
+			}else if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length
+				&& textEditorInstance.currentSpan.nextSibling.nextSibling!= null
+				&& (textEditorInstance.currentSpan.nextSibling.tagName == 'BR')) {
+				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling.nextSibling;
+				textEditorInstance.currentSpan.focus();
+			}		
 
 		} else if (eventKey[16] && eventKey[57]) {
 			event.preventDefault();
