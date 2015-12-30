@@ -23,7 +23,6 @@ function KeyEvent(element) {
 			span.createSpace();
 		} else if (eventKey[8]) {
 			backspace.deleteOnBackspace();
-			
 		} else if (eventKey[13]) {
 			event.preventDefault();
 			span.changeLine();
