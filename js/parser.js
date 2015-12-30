@@ -7,7 +7,7 @@ function Parser() {
 		var splittedData = clipboardData.split('');
 		var inputString = '';
 		var regNonNumericCharacter = /\D/;
-		var regWhitespace = /\s/g;
+//		var regWhitespace = /\s/g;
 		var regSpecialCharacter = /\W/;
 		var regNumericCharacter = /[0-9]/;
 		if (/\n/.test(clipboardData)) {
@@ -40,7 +40,7 @@ function Parser() {
 				newSpan = span.createSpan(inputString);
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
-			} else if (regWhitespace.test(splittedData[i])) {
+			} else if (splittedData[i] == ' ') {
 				newSpan = span.createSpan(inputString);
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
@@ -49,7 +49,7 @@ function Parser() {
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
 				inputString = '';
-			} else if (regSpecialCharacter.test(splittedData[i]) && !regWhitespace.test(splittedData[i])) {
+			} else if (regSpecialCharacter.test(splittedData[i]) && splittedData[i] != ' ') {
 				newSpan = span.createSpan(inputString);
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
