@@ -27,6 +27,10 @@ function Backspace(elem) {
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
 				previousSpan.remove();
 			}
+			else{
+				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
+				previousSpan.remove();
+			}
 			textEditorInstance.currentSpan.focus();
 			if(flag==0){
 				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
@@ -49,18 +53,21 @@ function Backspace(elem) {
 				console.log(textEditorInstance.currentSpan.previousSibling);
 				textEditorInstance.currentSpan.previousSibling.remove();
 			}
-			var firstString = textEditorInstance.currentSpan.previousSibling.innerHTML;
-			var secondString = textEditorInstance.currentSpan.innerHTML;
-			var newSpanInnerHTML = firstString.concat(secondString);
-			textEditorInstance.currentSpan.previousSibling.remove();
-			textEditorInstance.currentSpan.remove();
-			newSpan = span.createSpan(newSpanInnerHTML);
-			elem.insertBefore(newSpan, nextSpan);
-			textEditorInstance.currentSpan = newSpan;
-			textEditorInstance.currentSpan.focus();
-			if(flag==0){
-				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
-			}			
+			if(textEditorInstance.currentSpan.previousSibling != document.getElementsByTagName('span')[0].previousSibling){
+				var firstString = textEditorInstance.currentSpan.previousSibling.innerHTML;
+				var secondString = textEditorInstance.currentSpan.innerHTML;
+				var newSpanInnerHTML = firstString.concat(secondString);
+				textEditorInstance.currentSpan.previousSibling.remove();
+				textEditorInstance.currentSpan.remove();
+				newSpan = span.createSpan(newSpanInnerHTML);
+				elem.insertBefore(newSpan, nextSpan);
+				textEditorInstance.currentSpan = newSpan;
+				textEditorInstance.currentSpan.focus();
+				if(flag==0){
+					caret.setEndOfContenteditable(textEditorInstance.currentSpan);
+				}
+			}
+						
 		} else if (caretpos != 0) {
 			textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;
 			var firstString = textEditorInstance.inputString.substring(0, caretpos - 1);
@@ -69,6 +76,7 @@ function Backspace(elem) {
 			textEditorInstance.currentSpan = span.changeSpan(event.target, textEditorInstance.inputString);
 			textEditorInstance.currentSpan.focus();
 		}
+		
 
 	}
 

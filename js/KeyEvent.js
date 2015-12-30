@@ -343,7 +343,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('\'');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
-			textEditorInstance.inputString = '';
+			textEditorInstance.inputString='';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();

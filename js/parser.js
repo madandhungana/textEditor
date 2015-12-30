@@ -58,19 +58,7 @@ function Parser() {
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
 				inputString = '';
-
 			}
-
-
-			/*var keyCode=listenKey.getKeyCode(splittedData[i]);
-			alert(splittedData[i]+' '+keyCode);
-			charKeyCode[keyCode]=true;
-			keyEvent.checkCharacter(charKeyCode,keyCode);*/
 		}
 	}
-
-
-
-
-
 }

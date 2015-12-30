@@ -9,14 +9,7 @@ function ListenKey(){
         'protected':'modifier','implements':'keyword','instanceof':'keyword'
         
     };
-	var keyCode={
-		0:'48',1:'49',2:'50',3:'51',4:'52',5:'53',6:'54',7:'55',8:'56',9:'57','=':'61','*':'106','+':'107','-':'109','.':'110','/':'111',';':'186',
-		'=':'187',',':'188','-':'189','.':'190','/':'191','`':'192','[':'219','\\':'220',']':'221','\'':'222','a':'65','b':'66','c':'67','d':'68',
-		'e':'69','f':'70','g':'71','h':'72','i':'73','j':'74','k':'75','l':'76','m':'77','n':'78','o':'79','p':'80','q':'81','r':'82','s':'83','t':'84',
-		'u':'85','v':'86','w':'87','x':'88','y':'89','z':'90',
-		'~':'192',')':'48','!':'49','@':'50','#':'51','$':'52','%':'53','^':'54','&':'55','*':'56','(':'57','_':'109','+':'61',
-		'{':'219','}':'221','|':'220',':':'59','\"':'222','<':'188','>':'189','?':'191'
-	};
+	
     this.getChar = function(eventKeyCode) {
         if (eventKeyCode == null) {
             return String.fromCharCode(eventKeyCode) // IE
@@ -28,11 +21,6 @@ function ListenKey(){
             return null; // special key
           }
     }
-	this.getKeyCode = function(charact){
-		
-		return keyCode[charact];
-	}
-      
     this.getClassName=function(keyWord){
         console.log('Key Words',keyWord)
         var operatorPattern=/\W/;
