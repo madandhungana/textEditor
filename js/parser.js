@@ -7,12 +7,9 @@ function Parser() {
 		var splittedData = clipboardData.split('');
 		var inputString = '';
 		var regNonNumericCharacter = /\D/;
-//		var regWhitespace = /\s/g;
 		var regSpecialCharacter = /\W/;
 		var regNumericCharacter = /[0-9]/;
-		if (/\n/.test(clipboardData)) {
-			alert('yes it contains line space');
-		}
+		
 		console.log('clipboard data  '+clipboardData);
 		for (i = 0; i < splittedData.length; i++) {
 			if (regNonNumericCharacter.test(splittedData[i]) && !regSpecialCharacter.test(splittedData[i])) {
@@ -30,6 +27,7 @@ function Parser() {
 				span.changeLine();
 			} else if (/\t/.test(splittedData[i])) {
 				var tabs = '';
+				
 				for (var j = 0; j < 4; j++) {
 					tabs += ' ';
 				}

@@ -2,10 +2,12 @@ function Caret() {
 
 	this.getCaretPosition = function () {
 		var sel = window.getSelection();
+		
 		return sel.anchorOffset;
 	}
 	this.setEndOfContenteditable = function (contentEditableElement) {
 		var range, selection;
+		
 		if (document.createRange) //Firefox, Chrome, Opera, Safari, IE 9+
 		{
 			range = document.createRange(); //Create a range (a range is a like the selection but invisible)

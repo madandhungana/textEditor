@@ -7,10 +7,11 @@
     -moz-appearance: textfield-multiline;
     -webkit-appearance: textarea;
     border: 1px solid gray;
-    min-height: 600px;
+    height: 637px;
     overflow: auto;
     padding: 2px;
     resize: both;
     width: 80%;
     margin: 0 auto;
+	overflow-y: scroll;
 }

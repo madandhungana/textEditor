@@ -1,5 +1,7 @@
 #textarea{
     background-color: gainsboro;
+	font-family: sans-serif;
+	font-size: 12px;
 }
 .function{
     color: aqua;

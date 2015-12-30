@@ -26,6 +26,7 @@ function ListenKey(){
         var operatorPattern=/\W/;
         var whitespace=/[ ]/;
         var numeric=/^[0-9]*$/;
+		
         if(reservedKeywords[keyWord]){
             return reservedKeywords[keyWord];
         }
