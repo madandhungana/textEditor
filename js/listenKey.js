@@ -18,7 +18,7 @@ function ListenKey(){
             return String.fromCharCode(eventKeyCode)   // the rest
           }
         else {
-            return null; // special key
+            return null; 
           }
     }
     this.getClassName=function(keyWord){
