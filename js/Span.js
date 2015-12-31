@@ -23,7 +23,7 @@ function Span(flag) {
 		});
 		span.addEventListener('mouseup', function () {
 			var spans = document.getElementsByTagName('span');
-			if (!event.target.innerHTML == ' ') {
+			if (event.target.innerHTML != ' ') {
 				for (var i = 0; i < spans.length; i++) {
 					spans[i].setAttribute('contenteditable', 'true');
 				}
@@ -67,9 +67,13 @@ function Span(flag) {
 			elem.insertBefore(lineBreak, mainInstance.currentSpan.nextSibling);
 			mainInstance.currentSpan = lineBreak;
 			mainInstance.currentSpan.focus();
+			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
+			mainInstance.currentSpan.focus();
 			mainInstance.currentSpan = mainInstance.currentSpan.nextSibling;
 			mainInstance.currentSpan.focus();
 		} else if (caret.getCaretPosition() == 0) {
+			newSpan = this.createSpan('');
+			elem.insertBefore(newSpan, mainInstance.currentSpan.previousSibling);
 			elem.insertBefore(lineBreak, mainInstance.currentSpan);
 		} else if (caret.getCaretPosition() > 0 && caret.getCaretPosition()
 				   < mainInstance.currentSpan.innerHTML.length

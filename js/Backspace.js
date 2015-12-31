@@ -67,9 +67,10 @@ function Backspace(elem) {
 				elem.insertBefore(newSpan, nextSpan);
 				textEditorInstance.currentSpan = newSpan;
 				textEditorInstance.currentSpan.focus();
-				if(flag==0){
+				caret.setCaretAtSpecified(textEditorInstance.currentSpan,firstString.length);
+				/*if(flag==0){
 					caret.setEndOfContenteditable(textEditorInstance.currentSpan);
-				}
+				}*/
 			}
 						
 		} else if (caretpos != 0) {
