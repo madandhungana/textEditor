@@ -75,8 +75,6 @@ function Backspace(elem) {
 			}
 						
 		} else if (caretpos != 0) {
-									alert('i ma aa');
-
 			textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;
 			var firstString = textEditorInstance.inputString.substring(0, caretpos - 1);
 			var secondString = textEditorInstance.inputString.substring(caretpos, textEditorInstance.inputString.length);
