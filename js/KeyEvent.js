@@ -1,6 +1,7 @@
 function KeyEvent(element) {
 	var elem = element;
 	var newSpan;
+	var operatorPattern=/\W/;
 	
 	var span = new Span();
 	var listenKey = new ListenKey();
@@ -23,55 +24,64 @@ function KeyEvent(element) {
 			span.createSpace();
 		} else if (eventKey[8]) {
 			backspace.deleteOnBackspace();
-			
+			eventKey[8] = false;
 		} else if (eventKey[13]) {
 			event.preventDefault();
 			span.changeLine();
+			eventKey[13] = false;
 		} else if (eventKey[9]) {
 			event.preventDefault();
 			span.createTab();
 		} else if (eventKey[37]) {
-			if (caret.getCaretPosition() == 0 && textEditorInstance.currentSpan.previousSibling != null) {
-				if (textEditorInstance.currentSpan.previousSibling
-					!= document.getElementsByTagName('span')[0].previousSibling
-					&& textEditorInstance.currentSpan.previousSibling.tagName != 'BR') {
-					
+			
+			if(caret.getCaretPosition() == 0 
+			   && operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)
+			   && textEditorInstance.currentSpan.previousSibling.innerHTML != ' '){
+				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling.previousSibling;
+				textEditorInstance.currentSpan.focus();
+			}else if (caret.getCaretPosition() == 0 && textEditorInstance.currentSpan.previousSibling != null) {
+				
+				if (textEditorInstance.currentSpan.previousSibling.innerHTML == ' '){
+					textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling.previousSibling;
+				}else if (textEditorInstance.currentSpan.previousSibling
+						!= document.getElementsByTagName('span')[0].previousSibling
+						&& textEditorInstance.currentSpan.previousSibling.tagName != 'BR') {
+
 					textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
 					
 				} else if (textEditorInstance.currentSpan.previousSibling
 						   != document.getElementsByTagName('span')[0].previousSibling
 						   && textEditorInstance.currentSpan.previousSibling.tagName == 'BR') {
-					
 					textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling.previousSibling;
-
 				}
 				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
 				event.preventDefault();
 				textEditorInstance.currentSpan.focus();
 			}
+			eventKey[37] = false;
 		} else if (eventKey[39]) {
-			 if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length && textEditorInstance.currentSpan.nextSibling != null) {
-				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling;
+			if ((caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length || textEditorInstance.currentSpan.innerHTML == ' ')
+				&& textEditorInstance.currentSpan.nextSibling != null) {
+				if(operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)
+				   && textEditorInstance.currentSpan.nextSibling.innerHTML != ' '){
+					textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling.nextSibling;
+					textEditorInstance.currentSpan.focus();
+				}else if (textEditorInstance.currentSpan.nextSibling.innerHTML == ' '){
+						textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling.nextSibling;
+				}else if (textEditorInstance.currentSpan.nextSibling
+					!= elem.lastChild && textEditorInstance.currentSpan.nextSibling.tagName != 'BR') {
+					textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling;
+				} else if (textEditorInstance.currentSpan.nextSibling != elem.lastChild
+						   && textEditorInstance.currentSpan.nextSibling.tagName == 'BR') {
+					textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling.nextSibling;
+				}
+				event.preventDefault();
 				textEditorInstance.currentSpan.focus();
-			}else if (caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length
-				&& textEditorInstance.currentSpan.nextSibling.nextSibling!= null
-				&& (textEditorInstance.currentSpan.nextSibling.tagName == 'BR')) {
-				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling.nextSibling;
-				textEditorInstance.currentSpan.focus();
+				
 			}
-			else if(caret.getCaretPosition() == 0
-				&& textEditorInstance.currentSpan.nextSibling!= elem.lastChild){
-				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling.nextSibling;
-				textEditorInstance.currentSpan.focus();
-			}
-			else if(caret.getCaretPosition() == 0
-				&& textEditorInstance.currentSpan.nextSibling == elem.lastChild){
-				textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling;
-				textEditorInstance.currentSpan.focus();
-			}
+			eventKey[39] = false;
 		} else if (eventKey[16] && eventKey[57]) {
 			event.preventDefault();
-			
 			newSpan = span.createSpan('(');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
@@ -357,11 +367,23 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('\'');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			textEditorInstance.inputString = '\'';
 			caret.setEndOfContenteditable(textEditorInstance.currentSpan);
 			
 		} else if (eventValue >= 48 && eventValue <= 57) {
 			var numChar = listenKey.getChar(eventValue);
 			
+			if(operatorPattern.test(textEditorInstance.currentSpan.innerHTML) && caret.getCaretPosition()==0){
+				newSpan=span.createSpan('');
+				elem.insertBefore(newSpan,textEditorInstance.currentSpan);
+				textEditorInstance.currentSpan = newSpan;
+				textEditorInstance.currentSpan.focus();
+			}else if(operatorPattern.test(textEditorInstance.currentSpan.innerHTML) && caret.getCaretPosition()==1){
+				newSpan=span.createSpan('');
+				elem.insertBefore(newSpan,textEditorInstance.currentSpan.nextSibling);
+				textEditorInstance.currentSpan = newSpan;
+				textEditorInstance.currentSpan.focus();
+			}
 			textEditorInstance.inputString = textEditorInstance.inputString.concat(1);
 			textEditorInstance.currentSpan = span.changeSpan(textEditorInstance.currentSpan, textEditorInstance.inputString);
 			textEditorInstance.currentSpan.focus();
@@ -370,7 +392,17 @@ function KeyEvent(element) {
 			for (var i = 62; i <= 90; i++) {
 				if (eventKey[i]) {
 					var charUpper = listenKey.getChar(eventValue);
-					
+					if(operatorPattern.test(textEditorInstance.currentSpan.innerHTML) && caret.getCaretPosition()==0){
+						newSpan=span.createSpan('');
+						elem.insertBefore(newSpan,textEditorInstance.currentSpan);
+						textEditorInstance.currentSpan = newSpan;
+						textEditorInstance.currentSpan.focus();
+					}else if(operatorPattern.test(textEditorInstance.currentSpan.innerHTML) && caret.getCaretPosition()==1){
+						newSpan=span.createSpan('');
+						elem.insertBefore(newSpan,textEditorInstance.currentSpan.nextSibling);
+						textEditorInstance.currentSpan = newSpan;
+						textEditorInstance.currentSpan.focus();
+					}
 					char = charUpper.toLowerCase();
 					textEditorInstance.inputString = textEditorInstance.inputString.concat(char);
 					textEditorInstance.currentSpan = span.changeSpan(textEditorInstance.currentSpan, textEditorInstance.inputString);

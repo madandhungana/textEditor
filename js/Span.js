@@ -23,13 +23,13 @@ function Span(flag) {
 		});
 		span.addEventListener('mouseup', function () {
 			var spans = document.getElementsByTagName('span');
-			if (event.target.innerHTML != ' ') {
+			/*if (!event.target.innerHTML == ' ') {*/
 				for (var i = 0; i < spans.length; i++) {
 					spans[i].setAttribute('contenteditable', 'true');
 				}
 				mainInstance.currentSpan = event.target;
 				mainInstance.currentSpan.focus();
-			}
+//			}
 			
 		});
 		return span;
@@ -178,6 +178,7 @@ function Span(flag) {
 	}
 	this.createSpace = function () {
 		var mainInstance = Singleton.getInstance();
+		mainInstance.inputString = '';
 		var newSpace = this.createSpan(' ');
 		var currentInnerHTML;
 
@@ -206,8 +207,15 @@ function Span(flag) {
 			elem.insertBefore(newSpan, nextSpan);
 			mainInstance.currentSpan = newSpan;
 			mainInstance.currentSpan.focus();
+			
 			elem.insertBefore(newSpace, nextSpan);
 			newSpace.focus();
+			
+//			newSpan = this.createSpan('');
+//			elem.insertBefore(newSpan, nextSpan);
+//			mainInstance.currentSpan = newSpan;
+//			mainInstance.currentSpan.focus();
+			
 			newSpan = this.createSpan(secondString);
 			elem.insertBefore(newSpan, nextSpan);
 			mainInstance.currentSpan = newSpan;
@@ -224,8 +232,13 @@ function Span(flag) {
 			elem.appendChild(newSpan);
 			mainInstance.currentSpan = newSpan;
 			mainInstance.currentSpan.focus();
+			
 			elem.appendChild(newSpace);
 			newSpace.focus();
+			
+//			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
+//			mainInstance.currentSpan.focus();
+			
 			newSpan = this.createSpan(secondString);
 			elem.appendChild(newSpan);
 			mainInstance.currentSpan = newSpan;

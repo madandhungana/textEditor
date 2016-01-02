@@ -1,5 +1,5 @@
 function ListenKey(){
-    var reservedKeywords={
+     var reservedKeywords={
         'do':'function','if':'function','in':'keyword','for':'function','let':'keyword','new':'keyword','try':'keyword','var':'keyword',
         'case':'keyword','else':'function','enum':'keyword','eval':'keyword','null':'value','this':'keyword','true':'value','void':'keyword',
         'with':'keyword','break':'keyword','catch':'keyword','class':'keyword','const':'keyword','false':'value','super':'keyword','throw':'keyword',
@@ -9,12 +9,10 @@ function ListenKey(){
         'protected':'modifier','implements':'keyword','instanceof':'keyword'
         
     };
-	
     this.getChar = function(eventKeyCode) {
         if (eventKeyCode == null) {
             return String.fromCharCode(eventKeyCode) // IE
-          } 
-        else if (eventKeyCode != 0) {
+          }else if (eventKeyCode != 0) {
             return String.fromCharCode(eventKeyCode)   // the rest
           }
         else {
@@ -22,25 +20,22 @@ function ListenKey(){
           }
     }
     this.getClassName=function(keyWord){
-        console.log('Key Words',keyWord)
         var operatorPattern=/\W/;
         var whitespace=/[ ]/;
+		var regexQuote=/^'/i;
         var numeric=/^[0-9]*$/;
 		
         if(reservedKeywords[keyWord]){
             return reservedKeywords[keyWord];
-        }
-        else if(operatorPattern.test(keyWord) && !whitespace.test(keyWord)){
-		  	console.log('Hello');
+        }else if(regexQuote.test(keyWord)){
+			var className='string'
+		}else if(operatorPattern.test(keyWord) && !whitespace.test(keyWord)){
             var className='operator';
             return className;
-        }
-        else if(numeric.test(keyWord)){
+        }else if(numeric.test(keyWord) && !whitespace.test(keyWord)){
             var className="numeric";
             return className;
-			console.log('madan');
-        }
-        else{
+        }else{
             var className="simple";
             return className;
         }

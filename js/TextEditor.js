@@ -25,21 +25,6 @@ function TextEditor() {
 		element.onkeyup = function (event) {
 			eventKeys[event.keyCode] = false;
 		}
-
-		element.onclick = function (e) {
-			var eventId = e.target.id;
-			console.log(e);
-
-			if (!eventId.localeCompare("textarea")) {
-
-			} else {
-				that.currentSpan = e.target;
-				var caretPosition = caret.getCaretPosition(that.currentSpan);
-				that.currentSpan.focus();
-				inputString = e.target.innerHTML;
-				console.log(that.currentSpan);
-			}
-		}
 	}
 }
 

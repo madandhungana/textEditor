@@ -3,12 +3,15 @@ function Backspace(elem) {
 	var caret = new Caret();
 	var tab = new Tab();
 	
+	var operatorPattern=/\W/;
+	
 	this.deleteOnBackspace = function () {
 		var newSpan;
 		var textEditorInstance = Singleton.getInstance();
 		var caretpos = caret.getCaretPosition();
 
 		if (textEditorInstance.currentSpan.innerHTML == '' && caretpos == 0) {
+
 			event.preventDefault();
 			var previousSpan = textEditorInstance.currentSpan;
 			var flag =0;
@@ -23,10 +26,9 @@ function Backspace(elem) {
 			} else if (textEditorInstance.currentSpan.previousSibling == document.getElementsByTagName('span')[0].previousSibling) {
 				textEditorInstance.currentSpan.focus();
 			} else if (textEditorInstance.currentSpan.previousSibling.innerHTML == tab.getTab()
-					   || textEditorInstance.currentSpan.previousSibling.innerHTML == ' ') {
+					   || operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)) {
 				textEditorInstance.currentSpan.previousSibling.remove();
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
-				previousSpan.remove();
 			}
 			else{
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
@@ -40,8 +42,6 @@ function Backspace(elem) {
 		} else if (textEditorInstance.currentSpan.innerHTML != '' && caretpos == 0) {
 			event.preventDefault();
 			var nextSpan = textEditorInstance.currentSpan.nextSibling;
-			var flag = 0;
-			
 			if (textEditorInstance.currentSpan.previousSibling.tagName == 'BR') {
 				var br = document.getElementsByTagName('BR');
 				var length = br.length;
@@ -50,14 +50,17 @@ function Backspace(elem) {
 				flag = 1;
 			} else if (textEditorInstance.currentSpan.previousSibling == document.getElementsByTagName('span')[0].previousSibling) {
 				textEditorInstance.currentSpan.focus();
+				caret.setCaretAtSpecified(textEditorInstance.currentSpan,0);
 
 			} else if (textEditorInstance.currentSpan.previousSibling.innerHTML == tab.getTab()
-					   || textEditorInstance.currentSpan.previousSibling.innerHTML == ' ') {
-				console.log(textEditorInstance.currentSpan.previousSibling);
+					   || operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)
+					   || textEditorInstance.currentSpan.previousSibling.innerHTML == ' '  ) {
 				textEditorInstance.currentSpan.previousSibling.remove();
+			}else if(textEditorInstance.currentSpan.previousElementSibling){
+				
 			}
 			if(textEditorInstance.currentSpan.previousSibling != document.getElementsByTagName('span')[0].previousSibling){
-				var firstString = textEditorInstance.currentSpan.previousSibling.innerHTML;
+				var firstString = textEditorInstance.currentSpan.previousSibling.innerHTML.trim();
 				var secondString = textEditorInstance.currentSpan.innerHTML;
 				var newSpanInnerHTML = firstString.concat(secondString);
 				
@@ -74,6 +77,8 @@ function Backspace(elem) {
 			}
 						
 		} else if (caretpos != 0) {
+									alert('i ma aa');
+
 			textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;
 			var firstString = textEditorInstance.inputString.substring(0, caretpos - 1);
 			var secondString = textEditorInstance.inputString.substring(caretpos, textEditorInstance.inputString.length);
