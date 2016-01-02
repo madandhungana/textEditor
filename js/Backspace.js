@@ -53,8 +53,7 @@ function Backspace(elem) {
 				caret.setCaretAtSpecified(textEditorInstance.currentSpan,0);
 
 			} else if (textEditorInstance.currentSpan.previousSibling.innerHTML == tab.getTab()
-					   || operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)
-					   || textEditorInstance.currentSpan.previousSibling.innerHTML == ' '  ) {
+					   || operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)) {
 				textEditorInstance.currentSpan.previousSibling.remove();
 			}else if(textEditorInstance.currentSpan.previousElementSibling){
 				
@@ -66,14 +65,13 @@ function Backspace(elem) {
 				
 				textEditorInstance.currentSpan.previousSibling.remove();
 				textEditorInstance.currentSpan.remove();
+				
 				newSpan = span.createSpan(newSpanInnerHTML);
 				elem.insertBefore(newSpan, nextSpan);
 				textEditorInstance.currentSpan = newSpan;
 				textEditorInstance.currentSpan.focus();
+				
 				caret.setCaretAtSpecified(textEditorInstance.currentSpan,firstString.length);
-				/*if(flag==0){
-					caret.setEndOfContenteditable(textEditorInstance.currentSpan);
-				}*/
 			}
 						
 		} else if (caretpos != 0) {

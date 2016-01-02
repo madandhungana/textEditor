@@ -27,9 +27,11 @@ function Caret() {
 	this.setCaretAtSpecified = function(contentEditableSpan,index){
 		var textNode = contentEditableSpan.firstChild;
 		var range = document.createRange();
+		var sel = window.getSelection();
+
 		range.setStart(textNode, index);
 		range.setEnd(textNode, index);
-		var sel = window.getSelection();
+			
 		sel.removeAllRanges();
 		sel.addRange(range);
 	}

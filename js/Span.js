@@ -147,8 +147,10 @@ function Span(flag) {
 			elem.insertBefore(newSpan, nextSpan);
 			mainInstance.currentSpan = newSpan;
 			mainInstance.currentSpan.focus();
+			
 			elem.insertBefore(newTab, nextSpan);
 			newTab.focus();
+			
 			newSpan = this.createSpan(secondString);
 			elem.insertBefore(newSpan, nextSpan);
 			mainInstance.currentSpan = newSpan;
@@ -166,8 +168,10 @@ function Span(flag) {
 			elem.appendChild(newSpan);
 			mainInstance.currentSpan = newSpan;
 			mainInstance.currentSpan.focus();
+			
 			elem.appendChild(newTab);
 			newTab.focus();
+			
 			newSpan = this.createSpan(secondString);
 			elem.appendChild(newSpan);
 			mainInstance.currentSpan = newSpan;
@@ -185,12 +189,14 @@ function Span(flag) {
 		if (mainInstance.currentSpan.nextElementSibling == null && caret.getCaretPosition() == mainInstance.currentSpan.innerHTML.length) {
 			mainInstance.currentSpan = elem.appendChild(newSpace);
 			mainInstance.currentSpan.focus();
+			
 			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
 			mainInstance.currentSpan.focus();
 		} else if (mainInstance.currentSpan.nextElementSibling != null && caret.getCaretPosition() == mainInstance.currentSpan.innerHTML.length) {
 			elem.insertBefore(newSpace, mainInstance.currentSpan.nextSibling);
 			mainInstance.currentSpan = newSpace;
 			mainInstance.currentSpan.focus();
+			
 			mainInstance.currentSpan = elem.insertBefore(this.createSpan(''), mainInstance.currentSpan.nextSibling);
 			mainInstance.currentSpan.focus();
 		} else if (caret.getCaretPosition() == 0) {
@@ -211,11 +217,6 @@ function Span(flag) {
 			elem.insertBefore(newSpace, nextSpan);
 			newSpace.focus();
 			
-//			newSpan = this.createSpan('');
-//			elem.insertBefore(newSpan, nextSpan);
-//			mainInstance.currentSpan = newSpan;
-//			mainInstance.currentSpan.focus();
-			
 			newSpan = this.createSpan(secondString);
 			elem.insertBefore(newSpan, nextSpan);
 			mainInstance.currentSpan = newSpan;
@@ -235,10 +236,7 @@ function Span(flag) {
 			
 			elem.appendChild(newSpace);
 			newSpace.focus();
-			
-//			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
-//			mainInstance.currentSpan.focus();
-			
+
 			newSpan = this.createSpan(secondString);
 			elem.appendChild(newSpan);
 			mainInstance.currentSpan = newSpan;

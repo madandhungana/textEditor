@@ -19,20 +19,20 @@ function KeyEvent(element) {
 		var tab = new Tab();
 		var textEditorInstance = Singleton.getInstance();
 		
-		if (eventKey[32]) {
+		if (eventKey[32]) { 	//whitespace
 			event.preventDefault();
 			span.createSpace();
-		} else if (eventKey[8]) {
+		} else if (eventKey[8]) {	//Backspace
 			backspace.deleteOnBackspace();
 			eventKey[8] = false;
-		} else if (eventKey[13]) {
+		} else if (eventKey[13]) {	//Enter
 			event.preventDefault();
 			span.changeLine();
 			eventKey[13] = false;
-		} else if (eventKey[9]) {
+		} else if (eventKey[9]) {	//Tab
 			event.preventDefault();
 			span.createTab();
-		} else if (eventKey[37]) {
+		} else if (eventKey[37]) {	//left arrow
 			
 			if(caret.getCaretPosition() == 0 
 			   && operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)
@@ -59,7 +59,8 @@ function KeyEvent(element) {
 				textEditorInstance.currentSpan.focus();
 			}
 			eventKey[37] = false;
-		} else if (eventKey[39]) {
+			
+		} else if (eventKey[39]) {		//Right arrow
 			if ((caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length || textEditorInstance.currentSpan.innerHTML == ' ')
 				&& textEditorInstance.currentSpan.nextSibling != null) {
 				if(operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)
@@ -80,12 +81,18 @@ function KeyEvent(element) {
 				
 			}
 			eventKey[39] = false;
+		}else if(eventKey[38]){		//keycode for up arrow
+			event.preventDefault();
+		}else if(eventKey[40]){		//keycode for down arrow
+			event.preventDefault();
 		} else if (eventKey[16] && eventKey[57]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('(');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 			textEditorInstance.inputString = '';
+			
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
@@ -95,6 +102,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan(')');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -105,6 +113,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan(':');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -115,6 +124,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('\{');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -125,6 +135,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('\}');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -135,6 +146,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('<');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -145,6 +157,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('>');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -155,6 +168,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('?');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -165,6 +179,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('|');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -175,6 +190,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('+');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -185,6 +201,7 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('_');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -195,168 +212,205 @@ function KeyEvent(element) {
 			newSpan = span.createSpan('*');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[55]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('&');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[54]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('^');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[53]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('%');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[52]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('$');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[51]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('#');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[50]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('@');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[49]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('!');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[16] && eventKey[192]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('~');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[187]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('=');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[186]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan(';');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[189]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('-');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[219]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('[');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[221]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan(']');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[220] || eventKey[226]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('\\');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[191]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('/');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[190]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('.');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[188]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan(',');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
 		} else if (eventKey[192]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('`');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '';
 			newSpan = span.createSpan(textEditorInstance.inputString);
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -364,9 +418,11 @@ function KeyEvent(element) {
 			
 		} else if (eventKey[222]) {
 			event.preventDefault();
+			
 			newSpan = span.createSpan('\'');
 			textEditorInstance.currentSpan = span.appendSpan(newSpan);
 			textEditorInstance.currentSpan.focus();
+			
 			textEditorInstance.inputString = '\'';
 			caret.setEndOfContenteditable(textEditorInstance.currentSpan);
 			
@@ -412,6 +468,4 @@ function KeyEvent(element) {
 			}
 		}
 	}
-
-
 }

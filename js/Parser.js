@@ -2,6 +2,7 @@ function Parser() {
 	var span = new Span(true);
 	var listenKey = new ListenKey();
 	var caret = new Caret();
+	
 	this.parseData = function (clipboardData) {
 		var mainInstance = Singleton.getInstance();
 		var splittedData = clipboardData.split('');
@@ -10,7 +11,6 @@ function Parser() {
 		var regSpecialCharacter = /\W/;
 		var regNumericCharacter = /[0-9]/;
 		
-		console.log('clipboard data  '+clipboardData);
 		for (i = 0; i < splittedData.length; i++) {
 			if (regNonNumericCharacter.test(splittedData[i]) && !regSpecialCharacter.test(splittedData[i])) {
 				inputString = inputString.concat(splittedData[i]);
@@ -35,6 +35,7 @@ function Parser() {
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
 				inputString = '';
+				
 				newSpan = span.createSpan(inputString);
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
@@ -43,6 +44,7 @@ function Parser() {
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
 				inputString = ' ';
+				
 				newSpan = span.createSpan(inputString);
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
@@ -52,6 +54,7 @@ function Parser() {
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
 				inputString = splittedData[i];
+				
 				newSpan = span.createSpan(inputString);
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
