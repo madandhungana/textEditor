@@ -9,9 +9,9 @@ function Backspace(elem) {
 		var newSpan;
 		var textEditorInstance = Singleton.getInstance();
 		var caretpos = caret.getCaretPosition();
-
+//		alert('madan'+textEditorInstance.currentSpan.innerHTML+'dhungana');
+//		alert('dhungana'+textEditorInstance.currentSpan.previousSibling.innerHTML+'madan');
 		if (textEditorInstance.currentSpan.innerHTML == '' && caretpos == 0) {
-
 			event.preventDefault();
 			var previousSpan = textEditorInstance.currentSpan;
 			var flag =0;
@@ -27,6 +27,7 @@ function Backspace(elem) {
 				textEditorInstance.currentSpan.focus();
 			} else if (textEditorInstance.currentSpan.previousSibling.innerHTML == tab.getTab()
 					   || operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)) {
+				
 				textEditorInstance.currentSpan.previousSibling.remove();
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
 			}
@@ -35,7 +36,7 @@ function Backspace(elem) {
 				previousSpan.remove();
 			}
 			textEditorInstance.currentSpan.focus();
-			if(flag==0){
+			if(flag !=0){
 				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
 			}
 			textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;
