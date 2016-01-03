@@ -26,20 +26,25 @@ function ListenKey(){
         var numeric=/^[0-9]*$/;
 		
         if(reservedKeywords[keyWord]){
-            return reservedKeywords[keyWord];
+			return reservedKeywords[keyWord];
+			
         }else if(regexQuote.test(keyWord)){
-			var className='string'
-		}else if(operatorPattern.test(keyWord) && !whitespace.test(keyWord)){
+			var className='string';
+			
+			return className;
+		}else if(operatorPattern.test(keyWord) && !whitespace.test(keyWord) ){
             var className='operator';
+			
             return className;
-        }else if(numeric.test(keyWord) && !whitespace.test(keyWord)){
-            var className="numeric";
+        }else if(numeric.test(keyWord) && !whitespace.test(keyWord) && keyWord !=''){
+            var className='numeric';
+			
             return className;
         }else{
-            var className="simple";
+            var className='simple';
+			
             return className;
         }
-        
     }
     
 }
