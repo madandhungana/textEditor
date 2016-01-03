@@ -48,7 +48,13 @@ function KeyEvent(element) {
 			}
 		} else if (eventKey[37]) {	//left arrow
 			
-			if(caret.getCaretPosition() == 0 
+			if(caret.getCaretPosition() == 0 && textEditorInstance.currentSpan.previousSibling.innerHTML =='\''
+			   && regexQuote.test(textEditorInstance.currentSpan.previousSibling.previousSibling.innerHTML)){
+				textEditorInstance.currentSpan =textEditorInstance.currentSpan.previousSibling.previousSibling;
+				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
+				event.preventDefault();
+				textEditorInstance.currentSpan.focus();
+			}else if(caret.getCaretPosition() == 0 
 			   && operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)
 			   && textEditorInstance.currentSpan.previousSibling.innerHTML != ' '){
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling.previousSibling;
@@ -77,7 +83,11 @@ function KeyEvent(element) {
 		} else if (eventKey[39]) {		//Right arrow
 			if ((caret.getCaretPosition() == textEditorInstance.currentSpan.innerHTML.length || textEditorInstance.currentSpan.innerHTML == ' ')
 				&& textEditorInstance.currentSpan.nextSibling != null) {
-				if(operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)
+				if(regexQuote.test(textEditorInstance.currentSpan.nextSibling.innerHTML)
+				   && textEditorInstance.currentSpan.nextSibling.innerHTML !='\''){
+					textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling;
+					textEditorInstance.currentSpan.focus();
+				}else if(operatorPattern.test(textEditorInstance.currentSpan.nextSibling.innerHTML)
 				   && textEditorInstance.currentSpan.nextSibling.innerHTML != ' '){
 					textEditorInstance.currentSpan = textEditorInstance.currentSpan.nextSibling.nextSibling;
 					textEditorInstance.currentSpan.focus();
