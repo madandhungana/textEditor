@@ -53,6 +53,10 @@ function KeyEvent(element) {
 				textEditorInstance.currentSpan =textEditorInstance.currentSpan.previousSibling.previousSibling;
 				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
 				event.preventDefault();
+				
+				textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;
+				textEditorInstance.singleQuoteFlag = true;
+				textEditorInstance.singleQuoteCount = 1;
 				textEditorInstance.currentSpan.focus();
 			}else if(caret.getCaretPosition() == 0 
 			   && operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)
