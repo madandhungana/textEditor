@@ -36,6 +36,7 @@ function KeyEvent(element) {
 		} else if (eventKey[13]) {	//Enter
 			if(!quoteFlag){
 				event.preventDefault();
+				textEditorInstance.inputString = '';
 				span.changeLine();
 				eventKey[13] = false;
 			}
@@ -550,7 +551,7 @@ function KeyEvent(element) {
 				textEditorInstance.currentSpan = newSpan;
 				textEditorInstance.currentSpan.focus();
 			}
-			textEditorInstance.inputString = textEditorInstance.inputString.concat(1);
+			textEditorInstance.inputString = textEditorInstance.inputString.concat(numChar);
 			textEditorInstance.currentSpan = span.changeSpan(textEditorInstance.currentSpan, textEditorInstance.inputString);
 			textEditorInstance.currentSpan.focus();
 			eventKey[eventValue] = false;
