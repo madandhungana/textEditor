@@ -22,7 +22,17 @@ function Backspace(elem) {
 				previousSpan.remove();
 			} else if (textEditorInstance.currentSpan.previousSibling == document.getElementsByTagName('span')[0].previousSibling) {
 				textEditorInstance.currentSpan.focus();
-			} else if (textEditorInstance.currentSpan.previousSibling.innerHTML == tab.getTab()
+			} else if(textEditorInstance.currentSpan.previousSibling.innerHTML=='\''){
+				textEditorInstance.currentSpan.previousSibling.remove();
+				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
+				textEditorInstance.currentSpan.focus();
+				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
+				previousSpan.remove();
+				
+				textEditorInstance.singleQuoteCount = 1;
+				textEditorInstance.singleQuoteFlag = true;
+				
+			}else if (textEditorInstance.currentSpan.previousSibling.innerHTML == tab.getTab()
 					   || textEditorInstance.currentSpan.previousSibling.innerHTML == ' ') {
 					
 				textEditorInstance.currentSpan.previousSibling.remove();

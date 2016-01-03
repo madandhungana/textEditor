@@ -7,6 +7,7 @@ function TextEditor() {
 	this.inputString = '';
 	this.currentSpan;
 	this.singleQuoteFlag = false;
+	this.singleQuoteCount = 0;
 
 	var keyEvent = new KeyEvent(element);
 	var span = new Span(false);
@@ -19,6 +20,11 @@ function TextEditor() {
 		that.currentSpan.focus();
 
 		element.onkeydown = function (event) {
+			if(that.currentSpan.className == 'string' && that.currentSpan.innerHTML.length == 1 && event.keyCode == 8){
+				that.currentSpan.className = 'simple';
+				that.singleQuoteFlag = false;
+				that.singleQuoteCount = 0;
+			}
 			eventKeys[event.keyCode] = true;
 			keyEvent.checkCharacter(eventKeys, event.keyCode);
 		}

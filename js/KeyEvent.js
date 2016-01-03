@@ -2,8 +2,7 @@ function KeyEvent(element) {
 	var elem = element;
 	var newSpan;
 	var operatorPattern=/\W/;
-	var regexQuote=/^'/i;
-	var count = 0; 		//counter for quote
+	var regexQuote=/^'/i; 	
 	
 	var span = new Span();
 	var listenKey = new ListenKey();
@@ -21,6 +20,7 @@ function KeyEvent(element) {
 		var tab = new Tab();
 		var textEditorInstance = Singleton.getInstance();
 		var quoteFlag = textEditorInstance.singleQuoteFlag;
+		var count = textEditorInstance.singleQuoteCount;
 
 		if (eventKey[32]) { 	//whitespace
 			
@@ -512,6 +512,7 @@ function KeyEvent(element) {
 			}
 		} else if (eventKey[222]) {
 			event.preventDefault();
+			
 			if(count == 1){
 				newSpan = span.createSpan('\'');
 				textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -522,7 +523,7 @@ function KeyEvent(element) {
 				textEditorInstance.currentSpan.focus();
 				textEditorInstance.inputString = '';
 				textEditorInstance.singleQuoteFlag = false;
-				count = 0;
+				textEditorInstance.singleQuoteCount = 0;
 			}else{
 				newSpan = span.createSpan('\'');
 				textEditorInstance.currentSpan = span.appendSpan(newSpan);
@@ -531,7 +532,7 @@ function KeyEvent(element) {
 				textEditorInstance.inputString = '\'';
 				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
 				textEditorInstance.singleQuoteFlag = true;
-				count = 1;
+				textEditorInstance.singleQuoteCount = 1;
 			}
 			
 			eventKey[222] = false;
