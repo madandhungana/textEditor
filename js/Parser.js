@@ -19,6 +19,7 @@ function Parser() {
 					mainInstance.currentSpan = span.appendSpan(newSpan);
 					mainInstance.currentSpan.focus();
 					caret.setEndOfContenteditable(mainInstance.currentSpan);
+				
 					inputString = '';
 				}
 			} else if (regNumericCharacter.test(splittedData[i])) {
@@ -34,6 +35,7 @@ function Parser() {
 				newSpan = span.createSpan(inputString);
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
+				
 				inputString = '';
 				
 				newSpan = span.createSpan(inputString);
@@ -43,6 +45,7 @@ function Parser() {
 				newSpan = span.createSpan(inputString);
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
+				
 				inputString = ' ';
 				
 				newSpan = span.createSpan(inputString);
@@ -53,6 +56,7 @@ function Parser() {
 				newSpan = span.createSpan(inputString);
 				mainInstance.currentSpan = span.appendSpan(newSpan);
 				mainInstance.currentSpan.focus();
+				
 				inputString = splittedData[i];
 				
 				newSpan = span.createSpan(inputString);

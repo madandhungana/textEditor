@@ -2,6 +2,8 @@ function KeyEvent(element) {
 	var elem = element;
 	var newSpan;
 	var operatorPattern=/\W/;
+	var quoteFlag = false;
+	var count = 0; 		//counter for quote
 	
 	var span = new Span();
 	var listenKey = new ListenKey();
@@ -18,20 +20,29 @@ function KeyEvent(element) {
 	this.checkCharacter = function (eventKey, eventValue) {
 		var tab = new Tab();
 		var textEditorInstance = Singleton.getInstance();
-		
 		if (eventKey[32]) { 	//whitespace
-			event.preventDefault();
-			span.createSpace();
+			
+			if(!quoteFlag){
+				event.preventDefault();
+				span.createSpace();
+			}
 		} else if (eventKey[8]) {	//Backspace
-			backspace.deleteOnBackspace();
-			eventKey[8] = false;
+			if(!quoteFlag){
+				backspace.deleteOnBackspace();
+				eventKey[8] = false;
+			}
 		} else if (eventKey[13]) {	//Enter
-			event.preventDefault();
-			span.changeLine();
-			eventKey[13] = false;
+			if(!quoteFlag){
+				event.preventDefault();
+				span.changeLine();
+				eventKey[13] = false;
+			}
 		} else if (eventKey[9]) {	//Tab
-			event.preventDefault();
-			span.createTab();
+			if(!quoteFlag){
+				event.preventDefault();
+				span.createTab();
+				eventKey[9] = false;
+			}
 		} else if (eventKey[37]) {	//left arrow
 			
 			if(caret.getCaretPosition() == 0 
@@ -86,27 +97,37 @@ function KeyEvent(element) {
 		}else if(eventKey[40]){		//keycode for down arrow
 			event.preventDefault();
 		} else if (eventKey[16] && eventKey[57]) {
-			event.preventDefault();
-			
-			newSpan = span.createSpan('(');
-			textEditorInstance.currentSpan = span.appendSpan(newSpan);
-			textEditorInstance.currentSpan.focus();
-			textEditorInstance.inputString = '';
-			
-			newSpan = span.createSpan(textEditorInstance.inputString);
-			textEditorInstance.currentSpan = span.appendSpan(newSpan);
-			textEditorInstance.currentSpan.focus();
+			if(!quoteFlag){
+				event.preventDefault();
+
+				newSpan = span.createSpan('(');
+				textEditorInstance.currentSpan = span.appendSpan(newSpan);
+				textEditorInstance.currentSpan.focus();
+				textEditorInstance.inputString = '';
+
+				newSpan = span.createSpan(textEditorInstance.inputString);
+				textEditorInstance.currentSpan = span.appendSpan(newSpan);
+				textEditorInstance.currentSpan.focus();
+				
+				eventKey[16] = false;
+				eventKey[57] = false;
+			}
 		} else if (eventKey[16] && eventKey[48]) {
-			event.preventDefault();
-			
-			newSpan = span.createSpan(')');
-			textEditorInstance.currentSpan = span.appendSpan(newSpan);
-			textEditorInstance.currentSpan.focus();
-			
-			textEditorInstance.inputString = '';
-			newSpan = span.createSpan(textEditorInstance.inputString);
-			textEditorInstance.currentSpan = span.appendSpan(newSpan);
-			textEditorInstance.currentSpan.focus();
+			if(!quoteFlag){
+				event.preventDefault();
+
+				newSpan = span.createSpan(')');
+				textEditorInstance.currentSpan = span.appendSpan(newSpan);
+				textEditorInstance.currentSpan.focus();
+
+				textEditorInstance.inputString = '';
+				newSpan = span.createSpan(textEditorInstance.inputString);
+				textEditorInstance.currentSpan = span.appendSpan(newSpan);
+				textEditorInstance.currentSpan.focus();
+				
+				eventKey[16] = false;
+				eventKey[48] = false;
+			}
 		} else if (eventKey[16] && eventKey[186]) {
 			event.preventDefault();
 			
@@ -418,13 +439,28 @@ function KeyEvent(element) {
 			
 		} else if (eventKey[222]) {
 			event.preventDefault();
+				
+			if(count == 1){
+				newSpan = span.createSpan('\'');
+				textEditorInstance.currentSpan = span.appendSpan(newSpan);
+				textEditorInstance.currentSpan.focus();
+				
+				newSpan = span.createSpan('');
+				textEditorInstance.currentSpan = span.appendSpan(newSpan);
+				textEditorInstance.currentSpan.focus();
+				textEditorInstance.inputString = '';
+				quoteFlag = false;
+			}else{
+				newSpan = span.createSpan('\'');
+				textEditorInstance.currentSpan = span.appendSpan(newSpan);
+				textEditorInstance.currentSpan.focus();
 			
-			newSpan = span.createSpan('\'');
-			textEditorInstance.currentSpan = span.appendSpan(newSpan);
-			textEditorInstance.currentSpan.focus();
+				textEditorInstance.inputString = '\'';
+				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
+				quoteFlag = true;
+				count = 1;
+			}
 			
-			textEditorInstance.inputString = '\'';
-			caret.setEndOfContenteditable(textEditorInstance.currentSpan);
 			
 		} else if (eventValue >= 48 && eventValue <= 57) {
 			var numChar = listenKey.getChar(eventValue);
@@ -443,7 +479,7 @@ function KeyEvent(element) {
 			textEditorInstance.inputString = textEditorInstance.inputString.concat(1);
 			textEditorInstance.currentSpan = span.changeSpan(textEditorInstance.currentSpan, textEditorInstance.inputString);
 			textEditorInstance.currentSpan.focus();
-			eventKey[i] = false;
+			eventKey[eventValue] = false;
 		} else {
 			for (var i = 62; i <= 90; i++) {
 				if (eventKey[i]) {

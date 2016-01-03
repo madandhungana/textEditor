@@ -26,14 +26,20 @@ function Backspace(elem) {
 			} else if (textEditorInstance.currentSpan.previousSibling == document.getElementsByTagName('span')[0].previousSibling) {
 				textEditorInstance.currentSpan.focus();
 			} else if (textEditorInstance.currentSpan.previousSibling.innerHTML == tab.getTab()
-					   || operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)) {
+					   || textEditorInstance.currentSpan.previousSibling.innerHTML == ' ') {
+					
+				textEditorInstance.currentSpan.previousSibling.remove();
+				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
+				flag = 1;
+			}else if (operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)) {
 				
 				textEditorInstance.currentSpan.previousSibling.remove();
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
-			}
-			else{
+				flag = 1;
+			}else{
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
 				previousSpan.remove();
+				flag = 1;
 			}
 			textEditorInstance.currentSpan.focus();
 			if(flag !=0){

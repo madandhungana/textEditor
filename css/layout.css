@@ -1,17 +1,19 @@
 .main-container{
     width: 80em;
-    
+    margin: 0 auto;
 }
 
 #textarea {
     -moz-appearance: textfield-multiline;
     -webkit-appearance: textarea;
     border: 1px solid gray;
-    height: 637px;
+    height: 636px;
     overflow: auto;
     padding: 2px;
-    resize: both;
+/*    resize: both;*/
     width: 80%;
     margin: 0 auto;
 	overflow-y: scroll;
+	float: right;
+	
 }

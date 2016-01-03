@@ -61,14 +61,17 @@ function Span(flag) {
 		if (mainInstance.currentSpan.nextElementSibling == null && caret.getCaretPosition() == mainInstance.currentSpan.innerHTML.length) {
 			mainInstance.currentSpan = elem.appendChild(lineBreak);
 			mainInstance.currentSpan.focus();
+			
 			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
 			mainInstance.currentSpan.focus();
 		} else if (mainInstance.currentSpan.nextElementSibling != null && caret.getCaretPosition() == mainInstance.currentSpan.innerHTML.length) {
 			elem.insertBefore(lineBreak, mainInstance.currentSpan.nextSibling);
 			mainInstance.currentSpan = lineBreak;
 			mainInstance.currentSpan.focus();
+			
 			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
 			mainInstance.currentSpan.focus();
+			
 			mainInstance.currentSpan = mainInstance.currentSpan.nextSibling;
 			mainInstance.currentSpan.focus();
 		} else if (caret.getCaretPosition() == 0) {
@@ -134,12 +137,14 @@ function Span(flag) {
 		if (mainInstance.currentSpan.nextElementSibling == null && caret.getCaretPosition() == mainInstance.currentSpan.innerHTML.length) {
 			mainInstance.currentSpan = elem.appendChild(newTab);
 			mainInstance.currentSpan.focus();
+			
 			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
 			mainInstance.currentSpan.focus();
 		} else if (mainInstance.currentSpan.nextElementSibling != null && caret.getCaretPosition() == mainInstance.currentSpan.innerHTML.length) {
 			elem.insertBefore(newTab, mainInstance.currentSpan.nextSibling);
 			mainInstance.currentSpan = newTab;
 			mainInstance.currentSpan.focus();
+			
 			mainInstance.currentSpan = elem.insertBefore(this.createSpan(''), mainInstance.currentSpan.nextSibling);
 			mainInstance.currentSpan.focus();
 		} else if (caret.getCaretPosition() == 0) {
