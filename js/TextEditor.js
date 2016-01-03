@@ -6,7 +6,7 @@ function TextEditor() {
 	var char = '';
 	this.inputString = '';
 	this.currentSpan;
-	this.singleQuoteFlag = 0;
+	this.singleQuoteFlag = false;
 
 	var keyEvent = new KeyEvent(element);
 	var span = new Span(false);

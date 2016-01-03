@@ -9,8 +9,7 @@ function Backspace(elem) {
 		var newSpan;
 		var textEditorInstance = Singleton.getInstance();
 		var caretpos = caret.getCaretPosition();
-//		alert('madan'+textEditorInstance.currentSpan.innerHTML+'dhungana');
-//		alert('dhungana'+textEditorInstance.currentSpan.previousSibling.innerHTML+'madan');
+		
 		if (textEditorInstance.currentSpan.innerHTML == '' && caretpos == 0) {
 			event.preventDefault();
 			var previousSpan = textEditorInstance.currentSpan;
