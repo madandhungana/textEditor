@@ -13,7 +13,6 @@ function Backspace(elem) {
 		if (textEditorInstance.currentSpan.innerHTML == '' && caretpos == 0) {
 			event.preventDefault();
 			var previousSpan = textEditorInstance.currentSpan;
-			var flag =0;
 			
 			if (textEditorInstance.currentSpan.previousSibling.tagName == 'BR') {
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling.previousSibling;
@@ -21,7 +20,6 @@ function Backspace(elem) {
 				var length = br.length;
 				br[length - 1].parentNode.removeChild(br[length - 1]);
 				previousSpan.remove();
-				flag =1;
 			} else if (textEditorInstance.currentSpan.previousSibling == document.getElementsByTagName('span')[0].previousSibling) {
 				textEditorInstance.currentSpan.focus();
 			} else if (textEditorInstance.currentSpan.previousSibling.innerHTML == tab.getTab()
@@ -29,7 +27,6 @@ function Backspace(elem) {
 					
 				textEditorInstance.currentSpan.previousSibling.remove();
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
-//				flag = 1;
 			}else if (operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)) {
 				
 				textEditorInstance.currentSpan.previousSibling.remove();
@@ -37,7 +34,6 @@ function Backspace(elem) {
 			}else{
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
 				previousSpan.remove();
-				flag = 1;
 			}
 			textEditorInstance.currentSpan.focus();
 			
@@ -57,7 +53,6 @@ function Backspace(elem) {
 				var length = br.length;
 				
 				br[length - 1].parentNode.removeChild(br[length - 1]);
-				flag = 1;
 			} else if (textEditorInstance.currentSpan.previousSibling == document.getElementsByTagName('span')[0].previousSibling) {
 				textEditorInstance.currentSpan.focus();
 				caret.setCaretAtSpecified(textEditorInstance.currentSpan,0);
@@ -93,8 +88,5 @@ function Backspace(elem) {
 			textEditorInstance.currentSpan = span.changeSpan(event.target, textEditorInstance.inputString);
 			textEditorInstance.currentSpan.focus();
 		}
-		
-
 	}
-
 }
