@@ -73,7 +73,7 @@ function Span(flag) {
 			mainInstance.currentSpan.focus();
 		} else if (caret.getCaretPosition() == 0) {
 			newSpan = this.createSpan('');
-			elem.insertBefore(newSpan, mainInstance.currentSpan.previousSibling);
+			elem.insertBefore(newSpan, mainInstance.currentSpan);
 			elem.insertBefore(lineBreak, mainInstance.currentSpan);
 		} else if (caret.getCaretPosition() > 0 && caret.getCaretPosition()
 				   < mainInstance.currentSpan.innerHTML.length
@@ -88,8 +88,13 @@ function Span(flag) {
 			elem.insertBefore(newSpan, nextSpan);
 			mainInstance.currentSpan = newSpan;
 			mainInstance.currentSpan.focus();
+			
 			elem.insertBefore(lineBreak, nextSpan);
 			lineBreak.focus();
+			
+			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
+			mainInstance.currentSpan.focus();
+			
 			newSpan = this.createSpan(secondString);
 			elem.insertBefore(newSpan, nextSpan);
 			mainInstance.currentSpan = newSpan;
@@ -107,8 +112,13 @@ function Span(flag) {
 			elem.appendChild(newSpan);
 			mainInstance.currentSpan = newSpan;
 			mainInstance.currentSpan.focus();
+			
 			elem.appendChild(lineBreak);
 			lineBreak.focus();
+			
+			mainInstance.currentSpan = this.appendSpan(this.createSpan(''));
+			mainInstance.currentSpan.focus();
+			
 			newSpan = this.createSpan(secondString);
 			elem.appendChild(newSpan);
 			mainInstance.currentSpan = newSpan;
