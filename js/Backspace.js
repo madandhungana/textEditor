@@ -29,20 +29,24 @@ function Backspace(elem) {
 					
 				textEditorInstance.currentSpan.previousSibling.remove();
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
-				flag = 1;
+//				flag = 1;
 			}else if (operatorPattern.test(textEditorInstance.currentSpan.previousSibling.innerHTML)) {
 				
 				textEditorInstance.currentSpan.previousSibling.remove();
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
-				flag = 1;
 			}else{
 				textEditorInstance.currentSpan = textEditorInstance.currentSpan.previousSibling;
 				previousSpan.remove();
 				flag = 1;
 			}
 			textEditorInstance.currentSpan.focus();
-			if(flag !=0){
-				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
+			
+			if(textEditorInstance.currentSpan.innerHTML == ''){
+				textEditorInstance.currentSpan.focus();
+			}
+			if(textEditorInstance.currentSpan.innerHTML != ''){
+				caret.setCaretAtSpecified(textEditorInstance.currentSpan,textEditorInstance.currentSpan.innerHTML.length);
+
 			}
 			textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;
 		} else if (textEditorInstance.currentSpan.innerHTML != '' && caretpos == 0) {
