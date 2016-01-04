@@ -9,7 +9,7 @@ function Backspace(elem) {
 		var newSpan;
 		var textEditorInstance = Singleton.getInstance();
 		var caretpos = caret.getCaretPosition();
-		
+
 		if (textEditorInstance.currentSpan.innerHTML == '' && caretpos == 0) {
 			event.preventDefault();
 			var previousSpan = textEditorInstance.currentSpan;
@@ -51,7 +51,8 @@ function Backspace(elem) {
 				textEditorInstance.currentSpan.focus();
 			}
 			if(textEditorInstance.currentSpan.innerHTML != ''){
-				caret.setCaretAtSpecified(textEditorInstance.currentSpan,textEditorInstance.currentSpan.innerHTML.length);
+//				caret.setCaretAtSpecified(textEditorInstance.currentSpan,textEditorInstance.currentSpan.innerHTML.length);
+				caret.setEndOfContenteditable(textEditorInstance.currentSpan);
 
 			}
 			textEditorInstance.inputString = textEditorInstance.currentSpan.innerHTML;

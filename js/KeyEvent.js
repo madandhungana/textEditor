@@ -21,7 +21,6 @@ function KeyEvent(element) {
 		var textEditorInstance = Singleton.getInstance();
 		var quoteFlag = textEditorInstance.singleQuoteFlag;
 		var count = textEditorInstance.singleQuoteCount;
-
 		if (eventKey[32]) { 	//whitespace
 			
 			if(!quoteFlag){
@@ -31,7 +30,6 @@ function KeyEvent(element) {
 		} else if (eventKey[8]) {	//Backspace
 			if(!quoteFlag){
 				backspace.deleteOnBackspace();
-				eventKey[8] = false;
 			}
 		} else if (eventKey[13]) {	//Enter
 			if(!quoteFlag){
