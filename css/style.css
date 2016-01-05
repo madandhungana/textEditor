@@ -1,3 +1,6 @@
+.info-container strong{
+	font-weight: bold;
+}
 #textarea{
     background-color: gainsboro;
 	font-family: Monospace;
